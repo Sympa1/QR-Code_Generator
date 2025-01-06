@@ -1,4 +1,6 @@
 import qrcode
+import tkinter as tk
+from tkinter import ttk, messagebox, colorchooser, filedialog
 
 class QrCodeGenerieren:
     """Diese Klasse erzeugt die QR Codes. Data = Inhalt des QR Codes | fl_color = Füllfarbe | bg_color = Hintergrundfarbe"""
@@ -26,8 +28,26 @@ class QrCodeGenerieren:
         print("QR-Code erfolgreich generiert und als 'qrcode.png' gespeichert.")
 
 
+# TODO: später löschen
 qr_data = "Hallo Welt!"
 fl_color = "Green"
 bg_color = "Black"
 t = QrCodeGenerieren(qr_data, fl_color, bg_color)
 t.qr_erzeugen()
+
+
+# TODO: GUI Klasse hier
+class Gui(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("QR-Code Generator")
+        #TODO: App Icon vom GUI zu einem QR-Code ändern
+
+        self.gui_widgets()
+
+    def gui_widgets(self):
+        pass
+
+
+# TODO: IF Name Main
