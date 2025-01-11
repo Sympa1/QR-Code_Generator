@@ -4,6 +4,8 @@ from tkinter import ttk, messagebox, colorchooser, filedialog
 from PIL import Image, ImageTk
 import os
 
+# TODO: Add wrapper FUnktion um die eigentliche Logik auszuführen // Add Option um die aktuellen Einstellungen anzuzeigen (Farbe und Speicherort)
+
 class QrCodeGenerieren:
     """Diese Klasse erzeugt die QR Codes. Data = Inhalt des QR Codes | fl_color = Füllfarbe | bg_color = Hintergrundfarbe"""
 
@@ -73,7 +75,7 @@ class Gui(tk.Tk):
 
         # Erstellt den Rahmen für die Nutzereingaben
         self.user_eingaben_lfrm = ttk.Labelframe(self, text="QR-Code Einstellung")
-        self.user_eingaben_lfrm.pack(pady=20, padx=10)
+        self.user_eingaben_lfrm.pack(pady=(0, 20), padx=10)
         # QR-Code Texteingabe
         self.user_entr_lfrm = ttk.Labelframe(self.user_eingaben_lfrm, text="QR-Code Text")
         self.user_entr_lfrm.pack(pady=10, padx=10)
