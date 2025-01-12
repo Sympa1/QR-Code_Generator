@@ -41,7 +41,7 @@ class Gui(tk.Tk):
         self.title("QR-Code Generator")
 
         # Icon laden und in ein unterstütztes Format konvertieren um Linux kompatiblität zu ermöglichen
-        self.icon_image = Image.open("qr-code-outline.ico")
+        self.icon_image = Image.open(r"qr-code-outline.ico")
         self.icon_photo = ImageTk.PhotoImage(self.icon_image)
         # Icon setzen
         self.iconphoto(False, self.icon_photo)
@@ -58,7 +58,7 @@ class Gui(tk.Tk):
         """
 
         # LÄd den QR mit dem GitHub Repo Link & zeigt diesen an
-        self.qr_image = Image.open("qrcode_gui.png")
+        self.qr_image = Image.open(r"qrcode_gui.png")
         self.qr_image.thumbnail((200, 200))
         self.qr_photo = ImageTk.PhotoImage(self.qr_image)
         self.qr_label = ttk.Label(self, image=self.qr_photo)
