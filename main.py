@@ -1,8 +1,21 @@
+import sys
+import os
+from tkinter import filedialog, colorchooser, messagebox, ttk
+from PIL import Image, ImageTk
 import qrcode
 import tkinter as tk
-from tkinter import ttk, messagebox, colorchooser, filedialog
-from PIL import Image, ImageTk
-import os
+
+
+def resource_path(relative_path):
+    """Bestimmt den Pfad zu einer eingebetteten Ressource (z. B. Bilder)"""
+    try:
+        # PyInstaller erstellt beim Packen ein temporäres Verzeichnis
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
+
 
 class QrCodeGenerieren:
     """Diese Klasse erzeugt die QR Codes. Data = Inhalt des QR Codes | fl_color = Füllfarbe | bg_color = Hintergrundfarbe"""
@@ -31,22 +44,21 @@ class QrCodeGenerieren:
         print("QR-Code erfolgreich generiert und als 'qrcode.png' gespeichert.")
 
 
-# TODO: GUI Klasse hier
 class Gui(tk.Tk):
-    """Die Klasse GUI erbt von der TKinter Klasse und beinhaltet alle GUI Komponenten.
-    """
+    """Die Klasse GUI erbt von der TKinter Klasse und beinhaltet alle GUI Komponenten."""
+
     def __init__(self):
         super().__init__()
 
         self.title("QR-Code Generator")
 
-        # Icon laden und in ein unterstütztes Format konvertieren um Linux kompatiblität zu ermöglichen
-        self.icon_image = Image.open(r"qr-code-outline.ico")
+        # Icon laden und in ein unterstütztes Format konvertieren um Linux Kompatibilität zu ermöglichen
+        self.icon_image = Image.open(resource_path("img/qr-code-outline.ico"))
         self.icon_photo = ImageTk.PhotoImage(self.icon_image)
         # Icon setzen
         self.iconphoto(False, self.icon_photo)
 
-        #Deklaration der Hilfsvariablen
+        # Deklaration der Hilfsvariablen
         self.farbwahl_fuell = "Black"
         self.farbwahl_bg = "White"
         self.dateipfad = self.user_verzeichnis()
@@ -54,11 +66,10 @@ class Gui(tk.Tk):
         self.gui_widgets()
 
     def gui_widgets(self):
-        """ Funktion um alle GUI Komponenten zu erstellen.
-        """
+        """Funktion um alle GUI Komponenten zu erstellen."""
 
-        # LÄd den QR mit dem GitHub Repo Link & zeigt diesen an
-        self.qr_image = Image.open(r"qrcode_gui.png")
+        # Läd den QR mit dem GitHub Repo Link & zeigt diesen an
+        self.qr_image = Image.open(resource_path("img/qrcode_gui.png"))
         self.qr_image.thumbnail((200, 200))
         self.qr_photo = ImageTk.PhotoImage(self.qr_image)
         self.qr_label = ttk.Label(self, image=self.qr_photo)
@@ -67,6 +78,7 @@ class Gui(tk.Tk):
         # Erstellt den Rahmen für die Nutzereingaben
         self.user_eingaben_lfrm = ttk.Labelframe(self, text="QR-Code Einstellung")
         self.user_eingaben_lfrm.pack(pady=(0, 20), padx=10)
+
         # QR-Code Texteingabe
         self.user_entr_lfrm = ttk.Labelframe(self.user_eingaben_lfrm, text="QR-Code Text")
         self.user_entr_lfrm.pack(pady=10, padx=10)
@@ -113,7 +125,6 @@ class Gui(tk.Tk):
         self.abbrechen_btn = ttk.Button(self.btn_frm, text="Abbrechen", command=lambda: self.destroy())
         self.abbrechen_btn.pack(side="right", padx=(5, 10), pady=10)
 
-
     def farbwahl(self, btn_id):
         """Öffnet den Colochooser und speichert diesen in der Variable self.farbwahl_fuell / self.farbwahl_bg
             btn_id (int): Eine eindeutige ID des Buttons
@@ -126,8 +137,6 @@ class Gui(tk.Tk):
             farbe = colorchooser.askcolor(title="Farbauswahl")
             self.farbwahl_bg = farbe[1]
             self.usereinstellungen_bg_label_farbe.config(background=self.farbwahl_bg)
-
-
 
     def user_verzeichnis(self):
         # Dynamisch das Benutzerverzeichnis ermitteln
@@ -144,7 +153,6 @@ class Gui(tk.Tk):
                 initial_verzeichnis = test_pfad
                 break
         return initial_verzeichnis + "/qrcode.png"
-
 
     def speicherort(self):
         initial_verzeichnis = self.user_verzeichnis()
@@ -164,7 +172,6 @@ class Gui(tk.Tk):
         )
         self.usereinstellungen_pfad_label_text.config(text=self.dateipfad)
 
-
     def erstelle_qr(self):
         if os.path.exists(self.dateipfad):
             if messagebox.askyesnocancel("Speicherort vergeben", "Der gewählte Speicherort existiert bereits."):
@@ -182,10 +189,8 @@ class Gui(tk.Tk):
                 self.qr_image.thumbnail((200, 200))
                 self.qr_photo = ImageTk.PhotoImage(self.qr_image)
                 self.qr_label.config(image=self.qr_photo)
-
             else:
                 messagebox.showerror("Fehler!", "Der QR-Code konnte nicht gespeichert werden.")
-            
 
 def main():
     app = Gui()
