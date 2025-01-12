@@ -125,7 +125,7 @@ class Gui(tk.Tk):
         dokument_ordner = ["Dokumente", "Documents"]
         
         # Prüfe welcher Ordner existiert
-        initial_verzeichnis = benutzer_verzeichnis  # Fallback auf Home-Verzeichnis
+        initial_verzeichnis = None
         for ordner in dokument_ordner:
             test_pfad = os.path.join(benutzer_verzeichnis, ordner)
             if os.path.exists(test_pfad):
